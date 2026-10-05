@@ -21,7 +21,7 @@ class Article extends Model
     protected $casts = ['id' => 'integer', 'views' => 'integer'];
 
     protected $fillable = [
-        'slug', 'author_id', 'image', 'views'
+        'slug', 'author_id', 'public_author_id', 'image', 'views'
     ];
 
     protected $hidden = [
@@ -71,6 +71,16 @@ class Article extends Model
     public function author()
     {
         return $this->belongsTo('App\Modules\Core\User', 'author_id', 'user_id');
+    }
+
+    public function publicAuthor()
+    {
+        return $this->belongsTo(Author::class, 'public_author_id');
+    }
+
+    public function slugHistories()
+    {
+        return $this->hasMany(ArticleSlugHistory::class);
     }
 
     public function olds()

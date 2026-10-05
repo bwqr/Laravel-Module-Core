@@ -14,7 +14,7 @@ class ArticleArchive extends Model
      *
      * @var array
      */
-  protected $dates = ['deleted_at'];
+  protected $dates = ['deleted_at', 'published_at'];
 
     protected $casts = [
         'id' => 'integer',
@@ -26,7 +26,8 @@ class ArticleArchive extends Model
     ];
 
     protected $fillable = [
-    'article_id', 'title', 'language_id', 'body', 'sub_title', 'keywords', 'published', 'situation', 'version'
+    'article_id', 'title', 'language_id', 'slug', 'body', 'sub_title', 'excerpt',
+    'meta_title', 'meta_description', 'keywords', 'published', 'published_at', 'situation', 'version'
   ];
 
   protected $hidden = [

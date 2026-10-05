@@ -37,6 +37,16 @@ class Category extends Model
       return $this->hasManyThrough('App\Modules\Core\ArticleContent', 'App\Modules\Core\ArticleCategory', 'category_id', 'article_id', 'id', 'article_id');
     }
 
+    public function translations()
+    {
+        return $this->hasMany(CategoryTranslation::class);
+    }
+
+    public function translation($locale)
+    {
+        return $this->hasOne(CategoryTranslation::class)->where('locale', $locale);
+    }
+
     public function scopeSlug($query, $slug)
     {
         return $query->where('slug', $slug);
