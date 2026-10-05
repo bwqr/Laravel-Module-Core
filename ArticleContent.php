@@ -51,6 +51,8 @@ class ArticleContent extends Model
 
     public function getSubtitleAttribute()
     {
-        return $this->sub_title;
+        return array_key_exists('sub_title', $this->attributes)
+            ? $this->attributes['sub_title']
+            : null;
     }
 }
