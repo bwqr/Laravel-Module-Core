@@ -82,7 +82,7 @@ class AuthorController extends Controller
         foreach (request()->input('translations', []) as $translation) {
             $author->translations()->updateOrCreate(
                 ['locale' => $translation['locale']],
-                array_only($translation, [
+                \Illuminate\Support\Arr::only($translation, [
                     'slug', 'name', 'professional_title', 'biography', 'expertise',
                 ])
             );

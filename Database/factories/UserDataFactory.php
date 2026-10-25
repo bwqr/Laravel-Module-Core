@@ -23,7 +23,7 @@ $factory->define(UserData::class, function (Faker $faker) {
             return factory(User::class)->create()->user_id;
         },
         'role_id' => $faker->numberBetween(1, 100),
-        'profile_image' => $faker->slug,
+        'profile_image' => $faker->uuid . '.jpg',
         'biography' => ['sr' => $faker->sentence]
     ];
 });

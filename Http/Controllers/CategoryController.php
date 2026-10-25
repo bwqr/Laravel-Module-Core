@@ -72,7 +72,7 @@ class CategoryController extends Controller
         foreach (request()->input('translations', []) as $translation) {
             $category->translations()->updateOrCreate(
                 ['locale' => $translation['locale']],
-                array_only($translation, ['name', 'slug', 'description', 'published'])
+                \Illuminate\Support\Arr::only($translation, ['name', 'slug', 'description', 'published'])
             );
         }
     }
