@@ -21,6 +21,6 @@ $factory->define(Menu::class, function (Faker $faker) {
         'url' => $faker->slug,
         'tooltip' => ['tr' => $faker->sentence],
         'weight' => $faker->randomNumber(),
-        'parent' => $faker->randomNumber()
+        'parent' => 0
     ];
 });

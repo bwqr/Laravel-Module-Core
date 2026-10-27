@@ -21,7 +21,7 @@ class Permission
             abort(401);
         }
 
-        if(auth()->user()->permission($permission)->count() < 1) {
+        if(auth()->user()->roles->isEmpty() || auth()->user()->permission($permission)->count() < 1) {
             throw new RestrictedAreaException();
         }
 

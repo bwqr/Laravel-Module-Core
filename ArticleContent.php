@@ -14,7 +14,7 @@ class ArticleContent extends Model
      *
      * @var array
      */
-    protected $dates = ['deleted_at'];
+    protected $dates = ['deleted_at', 'published_at'];
 
     protected $casts = [
         'id' => 'integer',
@@ -26,7 +26,8 @@ class ArticleContent extends Model
     ];
 
     protected $fillable = [
-      'article_id', 'title', 'language_id', 'body', 'sub_title', 'keywords', 'published', 'version'
+      'article_id', 'title', 'language_id', 'slug', 'body', 'sub_title', 'excerpt',
+      'meta_title', 'meta_description', 'keywords', 'published', 'published_at', 'version'
     ];
 
     protected $hidden = [
@@ -46,5 +47,12 @@ class ArticleContent extends Model
     public function scopePublished($query)
     {
         return $query->where('published', 1);
+    }
+
+    public function getSubtitleAttribute()
+    {
+        return array_key_exists('sub_title', $this->attributes)
+            ? $this->attributes['sub_title']
+            : null;
     }
 }

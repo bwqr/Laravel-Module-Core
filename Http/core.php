@@ -34,6 +34,14 @@ Route::group(['prefix' => 'category'], function () {
     Route::delete('category/{category_id}', 'CategoryController@deleteCategory');
 });
 
+Route::group(['prefix' => 'author'], function () {
+    Route::get('authors', 'AuthorController@index');
+    Route::get('{id}', 'AuthorController@show');
+    Route::post('', 'AuthorController@store');
+    Route::put('{id}', 'AuthorController@update');
+    Route::delete('{id}', 'AuthorController@destroy');
+});
+
 Route::group(['prefix' => 'language'], function () {
     Route::get('languages', 'LanguageController@getLanguages');
 

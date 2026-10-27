@@ -18,7 +18,7 @@ class CategoryController extends Controller
 
     public function getCategories()
     {
-        return Category::all();
+        return Category::with('translations')->get();
     }
 
     public function postCategory()
@@ -26,10 +26,16 @@ class CategoryController extends Controller
         request()->validate([
             'name' => 'required',
             'description' => 'required',
-            'slug' => 'required'
+            'slug' => 'required',
+            'translations' => 'nullable|array',
+            'translations.*.locale' => 'required_with:translations|string|max:10',
+            'translations.*.name' => 'required_with:translations|string|max:191',
+            'translations.*.slug' => 'required_with:translations|string|max:191',
+            'translations.*.published' => 'boolean'
         ]);
 
-        Category::create(request()->only(['name', 'description', 'slug']));
+        $category = Category::create(request()->only(['name', 'description', 'slug']));
+        $this->storeTranslations($category);
 
         return response()->json();
     }
@@ -39,10 +45,17 @@ class CategoryController extends Controller
         request()->validate([
             'name' => 'required',
             'description' => 'required',
-            'slug' => 'required'
+            'slug' => 'required',
+            'translations' => 'nullable|array',
+            'translations.*.locale' => 'required_with:translations|string|max:10',
+            'translations.*.name' => 'required_with:translations|string|max:191',
+            'translations.*.slug' => 'required_with:translations|string|max:191',
+            'translations.*.published' => 'boolean'
         ]);
 
-        Category::findOrFail($category_id)->update(request()->only(['name', 'description', 'slug']));
+        $category = Category::findOrFail($category_id);
+        $category->update(request()->only(['name', 'description', 'slug']));
+        $this->storeTranslations($category);
 
         return response()->json();
     }
@@ -52,6 +65,16 @@ class CategoryController extends Controller
         Category::findOrFail($id)->forceDelete();
 
         return response()->json();
+    }
+
+    private function storeTranslations(Category $category)
+    {
+        foreach (request()->input('translations', []) as $translation) {
+            $category->translations()->updateOrCreate(
+                ['locale' => $translation['locale']],
+                \Illuminate\Support\Arr::only($translation, ['name', 'slug', 'description', 'published'])
+            );
+        }
     }
 
 }
